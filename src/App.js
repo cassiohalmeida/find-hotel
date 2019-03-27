@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import Header from './components/Header';
-
+import AppContainer from './components/AppContainer'
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <AppContainer>
         <Header />
-      </div>
+      </AppContainer>
     );
   }
 }

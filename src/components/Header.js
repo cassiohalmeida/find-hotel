@@ -5,8 +5,7 @@ import Logo from "./Logo";
 const Header = styled.header`
   background: #2795e7;
   height: 97px;
-  width: 1360px;
-  margin: 0 auto;
+  width: 100%;
   display: flex;
   align-items: center;
 `;
