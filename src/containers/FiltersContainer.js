@@ -11,32 +11,53 @@ const StyledFiltersContainer = styled.div`
 
 const FiltersContainer = props => {
   return (
-    <StyledFiltersContainer>
-      <div>
-        <input
-          type="range"
-          min="100"
-          max="800"
-          onInput={props.filterByPrice}
-          className="slider"
-          id="myRange"
-        />
-      </div>
-      <div>2</div>
-      <div>3</div>
-    </StyledFiltersContainer>
+    <div>
+      <StyledFiltersContainer>
+        <div>
+          <input
+            type="range"
+            min="100"
+            max="800"
+            onInput={props.filterByPrice}
+            className="slider"
+            id="filterPrice"
+          />
+        </div>
+        <div>
+          <input
+            type="range"
+            min="1"
+            defaultValue="1"
+            max="10"
+            onInput={props.filterByRating}
+            className="slider"
+            id="filterRating"
+          />
+        </div>
+        <div>3</div>
+      </StyledFiltersContainer>
+    </div>
   );
 };
-const mapStateToProps = (state) => ({
-  state: state
-})
+
 const mapDispatchToProps = dispatch => ({
   filterByPrice: e => {
-    dispatch({type: 'SET_VISIBILITY_FILTER', filter: 'FILTER_BY_MAX_PRICE', price: e.target.value});
+    dispatch({
+      type: "SET_VISIBILITY_FILTER",
+      filter: "FILTER_BY_MAX_PRICE",
+      price: e.target.value
+    });
+  },
+  filterByRating: e => {
+    dispatch({
+      type: 'SET_VISIBILITY_FILTER',
+      filter: 'FILTER_BY_MIN_RATING',
+      rating: e.target.value
+    });
   }
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(FiltersContainer);
