@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 
@@ -10,15 +10,33 @@ const StyledFiltersContainer = styled.div`
 `;
 
 const FiltersContainer = props => {
+  const [filterPrice, setFilterPrice] = useState(400);
+  const [filterRating, setFilterRating] = useState(3);
+  const [filterDistance, setFilterDistance] = useState(2);
+  useEffect(() => {
+    props.filterHotels({
+      price: filterPrice,
+      rating: filterRating,
+      distance_center: filterDistance
+    })
+  });
   return (
     <div>
+      {filterPrice}
+      <br />
+      {filterRating}
+      <br/>
+      {filterDistance}
       <StyledFiltersContainer>
         <div>
           <input
             type="range"
+            defaultValue={filterPrice}
             min="100"
             max="800"
-            onInput={props.filterByPrice}
+            onInput={e => {
+              setFilterPrice(e.target.value);
+            }}
             className="slider"
             id="filterPrice"
           />
@@ -27,11 +45,26 @@ const FiltersContainer = props => {
           <input
             type="range"
             min="1"
-            defaultValue="1"
+            defaultValue={filterRating}
             max="10"
-            onInput={props.filterByRating}
+            onInput={e => {
+              setFilterRating(e.target.value);
+            }}
             className="slider"
             id="filterRating"
+          />
+        </div>
+        <div>
+          <input
+            type="range"
+            min="1"
+            defaultValue={filterDistance}
+            max="10"
+            onInput={e => {
+              setFilterDistance(e.target.value);
+            }}
+            className="slider"
+            id="filterDistance"
           />
         </div>
         <div>3</div>
@@ -41,18 +74,12 @@ const FiltersContainer = props => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  filterByPrice: e => {
+  filterHotels: data => {
     dispatch({
       type: "SET_VISIBILITY_FILTER",
-      filter: "FILTER_BY_MAX_PRICE",
-      price: e.target.value
-    });
-  },
-  filterByRating: e => {
-    dispatch({
-      type: 'SET_VISIBILITY_FILTER',
-      filter: 'FILTER_BY_MIN_RATING',
-      rating: e.target.value
+      price: data.price,
+      rating: data.rating,
+      distance_center: data.distance_center
     });
   }
 });
