@@ -4,19 +4,21 @@ import { createStore } from "redux";
 
 import Header from "./components/Header";
 import AppContainer from "./components/AppContainer";
-import FiltersContainer from "./components/FiltersContainer";
+import FiltersContainer from "./containers/FiltersContainer";
+import VisibleHotelList from "./containers/VisibleHotelList";
 
-import reducer from "./reducers/hotels";
+import reducer from "./reducers/index";
 const store = createStore(reducer);
 
 console.log(store.getState());
-
+const unsubscribe = store.subscribe(() => console.log(store.getState()));
 const App = () => {
   return (
     <Provider store={store}>
       <AppContainer>
         <Header />
         <FiltersContainer />
+        <VisibleHotelList />
       </AppContainer>
     </Provider>
   );
