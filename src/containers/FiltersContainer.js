@@ -4,16 +4,17 @@ import { connect } from "react-redux";
 import SliderFilter from "../components/SliderFilter";
 
 const StyledFiltersContainer = styled.div`
-  padding: 20px;
+  padding: 50px;
   display: grid;
-  grid-template-columns: repeat(3, auto);
+  grid-template-columns: repeat(3, 1fr);
   height: 185px;
+  grid-gap: 30px;
 `;
 
 const FiltersContainer = props => {
   const [filterPrice, setFilterPrice] = useState(400);
-  const [filterRating, setFilterRating] = useState(3);
-  const [filterDistance, setFilterDistance] = useState(2);
+  const [filterRating, setFilterRating] = useState(5);
+  const [filterDistance, setFilterDistance] = useState(5);
   useEffect(() => {
     props.filterHotels({
       price: filterPrice,
@@ -22,42 +23,35 @@ const FiltersContainer = props => {
     });
   });
   return (
-    <div>
-      {filterPrice}
-      <br />
-      {filterRating}
-      <br />
-      {filterDistance}
-      <StyledFiltersContainer>
-        <SliderFilter
-          type="money"
-          title="Max price"
-          defaultValue={filterPrice}
-          onInput={setFilterPrice}
-          min={100}
-          max={800}
-          id="filterPrice"
-        />
-        <SliderFilter
-          type="rating"
-          title="Min rating"
-          defaultValue={filterRating}
-          onInput={setFilterRating}
-          min={1}
-          max={10}
-          id="filterRating"
-        />
-        <SliderFilter
-          type="distance"
-          title="Distance from city center"
-          defaultValue={filterDistance}
-          onInput={setFilterDistance}
-          min={1}
-          max={10}
-          id="filterDistance"
-        />
-      </StyledFiltersContainer>
-    </div>
+    <StyledFiltersContainer>
+      <SliderFilter
+        type="money"
+        title="Max price"
+        defaultValue={filterPrice}
+        onInput={setFilterPrice}
+        min={100}
+        max={800}
+        id="filterPrice"
+      />
+      <SliderFilter
+        type="rating"
+        title="Min rating"
+        defaultValue={filterRating}
+        onInput={setFilterRating}
+        min={1}
+        max={10}
+        id="filterRating"
+      />
+      <SliderFilter
+        type="distance"
+        title="Distance from city center"
+        defaultValue={filterDistance}
+        onInput={setFilterDistance}
+        min={1}
+        max={10}
+        id="filterDistance"
+      />
+    </StyledFiltersContainer>
   );
 };
 
