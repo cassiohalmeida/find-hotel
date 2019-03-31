@@ -5,6 +5,7 @@ import SliderFilter from "../components/SliderFilter";
 
 const StyledFiltersContainer = styled.div`
   padding: 50px;
+  padding-bottom: 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   height: 185px;
