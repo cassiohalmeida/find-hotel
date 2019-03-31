@@ -12,14 +12,19 @@ const StyledFiltersContainer = styled.div`
 `;
 
 const FiltersContainer = props => {
+  // PRICE FILTERS
   const [filterPrice, setFilterPrice] = useState(400);
+  const [priceStep, setPriceStep] = useState(100);
+  // RATING FILTERS
   const [filterRating, setFilterRating] = useState(5);
+  // DISTANCE FILTERS
   const [filterDistance, setFilterDistance] = useState(5);
   useEffect(() => {
     props.filterHotels({
       price: filterPrice,
+      priceStep,
       rating: filterRating,
-      distance_center: filterDistance
+      distanceCenter: filterDistance,
     });
   });
   return (
@@ -31,18 +36,20 @@ const FiltersContainer = props => {
         onInput={setFilterPrice}
         min={100}
         max={800}
+        step={priceStep}
         id="filterPrice"
-        dataList={props.hotels}
+        data={props.hotels}
       />
-      {/* <SliderFilter
+      <SliderFilter
         type="rating"
         title="Min rating"
         defaultValue={filterRating}
         onInput={setFilterRating}
         min={1}
         max={10}
+        step={1}
         id="filterRating"
-        dataList={props.hotels}
+        data={props.hotels}
       />
       <SliderFilter
         type="distance"
@@ -51,9 +58,10 @@ const FiltersContainer = props => {
         onInput={setFilterDistance}
         min={1}
         max={10}
+        step={1}
         id="filterDistance"
-        dataList={props.hotels}
-      /> */}
+        data={props.hotels}
+      />
     </StyledFiltersContainer>
   );
 };
@@ -67,8 +75,9 @@ const mapDispatchToProps = dispatch => ({
     dispatch({
       type: "SET_VISIBILITY_FILTER",
       price: data.price,
+      priceStep: data.priceStep,
       rating: data.rating,
-      distance_center: data.distance_center
+      distanceCenter: data.distanceCenter
     });
   }
 });

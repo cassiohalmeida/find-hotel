@@ -1,5 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import { priceBetweenFilter, ratingFilter, distanceFilter } from "../selectors";
 
 const SliderTitle = styled.div`
   i {
@@ -79,17 +80,32 @@ const SliderFilter = props => {
   }
   const dataListFilter = () => {
     const result = [];
-    for (let i = props.min; i <= props.max; i = i + 100) {
-      let size = props.dataList.filter(hotel => {
-        return (
-          Math.trunc(hotel.price) >= i - 100 && Math.trunc(hotel.price) <= i
-        );
-      });
 
-      result.push({
-        value: i,
-        qty: size.length
-      });
+    if (props.type === "money") {
+      for (let i = props.min; i <= props.max; i = i + props.step) {
+        let size = props.data.filter(hotel => {
+          let minPrice = i - props.step;
+          let maxPrice = i;
+          return priceBetweenFilter(hotel, minPrice, maxPrice);
+        });
+        result.push({
+          value: i,
+          qty: size.length
+        });
+      }
+    } else {
+      for (let i = props.min; i <= props.max; i++) {
+        let size = props.data.filter(hotel => {
+          if (props.type == 'rating') {
+            return ratingFilter(hotel, i);
+          }
+          return distanceFilter(hotel, i);
+        });
+        result.push({
+          value: i,
+          qty: size.length
+        });
+      }
     }
     console.log(result);
     return result;
@@ -106,7 +122,7 @@ const SliderFilter = props => {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(8,1fr)",
+              gridTemplateColumns: `repeat(${props.max / props.step}, 1fr)`,
               alignItems: "baseline"
             }}
           >
@@ -115,19 +131,19 @@ const SliderFilter = props => {
                 key={hotel._id}
                 style={{
                   width: 100 + "%",
-                  height: hotel.qty / 1.5 + "px",
+                  height: hotel.qty + "px",
                   backgroundColor: "#e5e5e5"
                 }}
               />
             ))}
           </div>
-          <div style={{marginTop: -15 + 'px'}}>
+          <div style={{ marginTop: -15 + "px" }}>
             <Slider
               type="range"
               defaultValue={props.defaultValue}
               min={props.min}
               max={props.max}
-              step="100"
+              step={props.step}
               onInput={e => {
                 props.onInput(e.target.value);
               }}
