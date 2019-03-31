@@ -1,6 +1,6 @@
 import React from "react";
-import styled, { css } from "styled-components";
-import { priceBetweenFilter, ratingFilter, distanceFilter } from "../selectors";
+import styled from "styled-components";
+import { priceBetweenFilter, distanceFilter } from "../selectors";
 
 const SliderTitle = styled.div`
   i {
@@ -59,6 +59,22 @@ const SliderContainer = styled.div`
   padding-top: 30px;
 `;
 
+const SliderBarContainer = styled.div`
+  margin-top: 30px;
+`;
+
+const SliderGraphContainer = styled.div`
+  display: grid;
+  align-items: baseline;
+  grid-template-columns: repeat(${props => props.repeat}, 1fr);
+`;
+
+const SliderGraph = styled.div`
+  width: 100%;
+  background: #e5e5e5;
+  height: ${props => props.height}px;
+`;
+
 const SliderFilter = props => {
   let icon;
   let outputLabel;
@@ -80,7 +96,6 @@ const SliderFilter = props => {
   }
   const dataListFilter = () => {
     const result = [];
-
     if (props.type === "money") {
       for (let i = props.min; i <= props.max; i = i + props.step) {
         let size = props.data.filter(hotel => {
@@ -96,7 +111,7 @@ const SliderFilter = props => {
     } else {
       for (let i = props.min; i <= props.max; i++) {
         let size = props.data.filter(hotel => {
-          if (props.type == 'rating') {
+          if (props.type == "rating") {
             return Math.trunc(hotel.review_rating.rating) == i;
           }
           return distanceFilter(hotel, i);
@@ -107,7 +122,6 @@ const SliderFilter = props => {
         });
       }
     }
-    console.log(result);
     return result;
   };
   return (
@@ -118,25 +132,12 @@ const SliderFilter = props => {
       </SliderTitle>
       <SliderContainer val={props.defaultValue} min={props.min} max={props.max}>
         <SliderOutput htmlFor={props.id}>{outputLabel}</SliderOutput>
-        <div style={{ marginTop: 30 + "px" }}>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: `repeat(${props.max / props.step}, 1fr)`,
-              alignItems: "baseline"
-            }}
-          >
+        <SliderBarContainer>
+          <SliderGraphContainer repeat={props.max / props.step}>
             {dataListFilter().map(hotel => (
-              <div
-                key={hotel._id}
-                style={{
-                  width: 100 + "%",
-                  height: hotel.qty + "px",
-                  backgroundColor: "#e5e5e5"
-                }}
-              />
+              <SliderGraph height={hotel.qty} />
             ))}
-          </div>
+          </SliderGraphContainer>
           <div style={{ marginTop: -15 + "px" }}>
             <Slider
               type="range"
@@ -156,7 +157,7 @@ const SliderFilter = props => {
               }}
             />
           </div>
-        </div>
+        </SliderBarContainer>
       </SliderContainer>
     </div>
   );

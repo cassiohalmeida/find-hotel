@@ -5,8 +5,7 @@ const visibilityFilter = state => state.visibilityFilter;
 
 export const priceBetweenFilter = (hotel, minPrice, maxPrice) => {
   return (
-    Math.trunc(hotel.price) >= minPrice &&
-    Math.trunc(hotel.price) <= maxPrice
+    Math.trunc(hotel.price) >= minPrice && Math.trunc(hotel.price) <= maxPrice
   );
 };
 
@@ -23,8 +22,10 @@ const filteredHotelsByMaxPrice = createSelector(
   visibilityFilter,
   (hotels, visibilityFilter) => {
     return hotels.filter(hotel => {
-      return (
-        priceBetweenFilter(hotel, visibilityFilter.price - visibilityFilter.priceStep, visibilityFilter.price)
+      return priceBetweenFilter(
+        hotel,
+        visibilityFilter.price - visibilityFilter.priceStep,
+        visibilityFilter.price
       );
     });
   }
@@ -33,19 +34,15 @@ const filteredHotelsByMinRating = createSelector(
   [filteredHotelsByMaxPrice, visibilityFilter],
   (hotels, visibilityFilter) => {
     return hotels.filter(hotel => {
-      return (
-        ratingFilter(hotel, visibilityFilter.rating)
-      );
+      return ratingFilter(hotel, visibilityFilter.rating);
     });
-  }  
-)
+  }
+);
 export const getFilteredHotels = createSelector(
   [filteredHotelsByMinRating, visibilityFilter],
   (hotels, visibilityFilter) => {
     return hotels.filter(hotel => {
-      return (
-        distanceFilter(hotel, visibilityFilter.distanceCenter)
-      );
+      return distanceFilter(hotel, visibilityFilter.distanceCenter);
     });
   }
-)
+);
