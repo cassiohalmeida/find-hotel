@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { priceBetweenFilter, distanceFilter } from "../selectors";
+import { priceLessThanMax, distanceFilter } from "../selectors";
 
 const SliderTitle = styled.div`
   i {
@@ -101,7 +101,7 @@ const SliderFilter = props => {
         let size = props.data.filter(hotel => {
           let minPrice = i - props.step;
           let maxPrice = i;
-          return priceBetweenFilter(hotel, minPrice, maxPrice);
+          return Math.trunc(hotel.price) >= minPrice && Math.trunc(hotel.price) <= maxPrice;
         });
         result.push({
           value: i,

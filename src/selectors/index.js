@@ -3,10 +3,8 @@ import { createSelector } from "reselect";
 const hotels = state => state.hotels;
 const visibilityFilter = state => state.visibilityFilter;
 
-export const priceBetweenFilter = (hotel, minPrice, maxPrice) => {
-  return (
-    Math.trunc(hotel.price) >= minPrice && Math.trunc(hotel.price) <= maxPrice
-  );
+export const priceFilter = (hotel, maxPrice) => {
+  return Math.trunc(hotel.price) <= maxPrice;
 };
 
 export const ratingFilter = (hotel, rating) => {
@@ -22,9 +20,8 @@ const filteredHotelsByMaxPrice = createSelector(
   visibilityFilter,
   (hotels, visibilityFilter) => {
     return hotels.filter(hotel => {
-      return priceBetweenFilter(
+      return priceFilter(
         hotel,
-        visibilityFilter.price - visibilityFilter.priceStep,
         visibilityFilter.price
       );
     });

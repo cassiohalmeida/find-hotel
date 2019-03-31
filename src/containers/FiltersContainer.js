@@ -14,7 +14,6 @@ const StyledFiltersContainer = styled.div`
 const FiltersContainer = props => {
   // PRICE FILTERS
   const [filterPrice, setFilterPrice] = useState(400);
-  const [priceStep, setPriceStep] = useState(100);
   // RATING FILTERS
   const [filterRating, setFilterRating] = useState(5);
   // DISTANCE FILTERS
@@ -22,7 +21,6 @@ const FiltersContainer = props => {
   useEffect(() => {
     props.filterHotels({
       price: filterPrice,
-      priceStep,
       rating: filterRating,
       distanceCenter: filterDistance,
     });
@@ -36,7 +34,7 @@ const FiltersContainer = props => {
         onInput={setFilterPrice}
         min={100}
         max={800}
-        step={priceStep}
+        step={100}
         id="filterPrice"
         data={props.hotels}
       />
@@ -75,7 +73,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch({
       type: "SET_VISIBILITY_FILTER",
       price: data.price,
-      priceStep: data.priceStep,
       rating: data.rating,
       distanceCenter: data.distanceCenter
     });
