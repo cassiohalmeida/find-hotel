@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { priceLessThanMax, distanceFilter } from "../selectors";
+import { distanceFilter } from "../selectors";
 
 const SliderTitle = styled.div`
   i {
@@ -105,20 +105,22 @@ const SliderFilter = props => {
         });
         result.push({
           value: i,
-          qty: size.length
+          qty: size.length,
+          _id: size[0] ? size[0]._id : i
         });
       }
     } else {
       for (let i = props.min; i <= props.max; i++) {
         let size = props.data.filter(hotel => {
-          if (props.type == "rating") {
-            return Math.trunc(hotel.review_rating.rating) == i;
+          if (props.type === "rating") {
+            return Math.trunc(hotel.review_rating.rating) === i;
           }
           return distanceFilter(hotel, i);
         });
         result.push({
           value: i,
-          qty: size.length
+          qty: size.length,
+          _id: size[0] ? size[0]._id : i
         });
       }
     }
@@ -135,7 +137,7 @@ const SliderFilter = props => {
         <SliderBarContainer>
           <SliderGraphContainer repeat={props.max / props.step}>
             {dataListFilter().map(hotel => (
-              <SliderGraph height={hotel.qty} />
+              <SliderGraph key={hotel._id} height={hotel.qty} />
             ))}
           </SliderGraphContainer>
           <div style={{ marginTop: -15 + "px" }}>
