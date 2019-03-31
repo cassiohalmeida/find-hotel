@@ -75,6 +75,10 @@ const SliderGraph = styled.div`
   height: ${props => props.height}px;
 `;
 
+const SliderInputContainer = styled.div`
+  margin-top: -15px;
+`;
+
 const SliderFilter = props => {
   let icon;
   let outputLabel;
@@ -101,7 +105,10 @@ const SliderFilter = props => {
         let size = props.data.filter(hotel => {
           let minPrice = i - props.step;
           let maxPrice = i;
-          return Math.trunc(hotel.price) >= minPrice && Math.trunc(hotel.price) <= maxPrice;
+          return (
+            Math.trunc(hotel.price) >= minPrice &&
+            Math.trunc(hotel.price) <= maxPrice
+          );
         });
         result.push({
           value: i,
@@ -140,7 +147,7 @@ const SliderFilter = props => {
               <SliderGraph key={hotel._id} height={hotel.qty} />
             ))}
           </SliderGraphContainer>
-          <div style={{ marginTop: -15 + "px" }}>
+          <SliderInputContainer>
             <Slider
               type="range"
               defaultValue={props.defaultValue}
@@ -158,7 +165,7 @@ const SliderFilter = props => {
                 "--val": props.defaultValue
               }}
             />
-          </div>
+          </SliderInputContainer>
         </SliderBarContainer>
       </SliderContainer>
     </div>
