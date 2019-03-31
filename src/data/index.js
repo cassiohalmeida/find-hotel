@@ -8,7 +8,7 @@ const data = [
       rating: "7.4"
     },
     tags: ["et", "ea", "quis", "est", "laboris"],
-    price: "653.4",
+    price: "105.20",
     old_price: 95,
     other_prices: [
       {

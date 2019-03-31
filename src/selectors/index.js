@@ -9,9 +9,7 @@ export const getFilteredHotels = createSelector(
   (hotels, visibilityFilter) => {
     return hotels.filter(hotel => {
       return (
-        hotel.price < visibilityFilter.price &&
-        hotel.review_rating.rating > Number(visibilityFilter.rating) &&
-        hotel.distance_center == visibilityFilter.distance_center
+        hotel.price >= visibilityFilter.price - 100 && hotel.price <= visibilityFilter.price
       );
     });
   }

@@ -11,11 +11,11 @@ const SliderTitle = styled.div`
 const Slider = styled.input`
   width: 100%;
   height: 4px;
-  margin-top: 60px;
   border-radius: 4px;
   background: transparent;
   outline: none;
   -webkit-appearance: none;
+  margin: 0;
 
   ::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -32,7 +32,8 @@ const Slider = styled.input`
     box-sizing: border-box;
     border: none;
     height: 4px;
-    background: linear-gradient(#2794e7, #2794e7) 0/var(--sx) 100% no-repeat #ccc;
+    background: linear-gradient(#2794e7, #2794e7) 0 / var(--sx) 100% no-repeat
+      #ccc;
   }
 `;
 
@@ -50,8 +51,8 @@ const SliderContainer = styled.div`
   --min: ${props => props.min};
   --max: ${props => props.max};
   --range: calc(var(--max) - var(--min));
-  --ratio: calc((var(--val) - var(--min))/var(--range));
-  --sx: calc(.5*1.5em + var(--ratio)*(100% - 1.5em));
+  --ratio: calc((var(--val) - var(--min)) / var(--range));
+  --sx: calc(0.5 * 1.5em + var(--ratio) * (100% - 1.5em));
   position: relative;
   height: 130px;
   padding-top: 30px;
@@ -67,7 +68,7 @@ const SliderFilter = props => {
       break;
     case "rating":
       icon = <i className="far fa-smile" />;
-      outputLabel = props.defaultValue
+      outputLabel = props.defaultValue;
       break;
     case "distance":
       icon = <i className="fas fa-location-arrow" />;
@@ -76,34 +77,70 @@ const SliderFilter = props => {
     default:
       icon = "";
   }
+  const dataListFilter = () => {
+    const result = [];
+    for (let i = props.min; i <= props.max; i = i + 100) {
+      let size = props.dataList.filter(hotel => {
+        return (
+          Math.trunc(hotel.price) >= i - 100 && Math.trunc(hotel.price) <= i
+        );
+      });
+
+      result.push({
+        value: i,
+        qty: size.length
+      });
+    }
+    console.log(result);
+    return result;
+  };
   return (
     <div>
       <SliderTitle>
         {icon}
         {props.title}
       </SliderTitle>
-      <SliderContainer
-        val={props.defaultValue}
-        min={props.min}
-        max={props.max}
-      >
+      <SliderContainer val={props.defaultValue} min={props.min} max={props.max}>
         <SliderOutput htmlFor={props.id}>{outputLabel}</SliderOutput>
-        <Slider
-          type="range"
-          defaultValue={props.defaultValue}
-          min={props.min}
-          max={props.max}
-          onInput={e => {
-            props.onInput(e.target.value);
-          }}
-          className="slider"
-          id={props.id}
-          style={{
-            "--min": props.min,
-            "--max": props.max,
-            "--val": props.defaultValue
-          }}
-        />
+        <div style={{ marginTop: 30 + "px" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(8,1fr)",
+              alignItems: "baseline"
+            }}
+          >
+            {dataListFilter().map(hotel => (
+              <div
+                key={hotel._id}
+                style={{
+                  width: 100 + "%",
+                  height: hotel.qty / 1.5 + "px",
+                  backgroundColor: "#e5e5e5"
+                }}
+              />
+            ))}
+          </div>
+          <div style={{marginTop: -15 + 'px'}}>
+            <Slider
+              type="range"
+              defaultValue={props.defaultValue}
+              min={props.min}
+              max={props.max}
+              step="100"
+              onInput={e => {
+                props.onInput(e.target.value);
+              }}
+              className="slider"
+              id={props.id}
+              style={{
+                "--min": props.min,
+                "--max": props.max,
+                "--val": props.defaultValue
+              }}
+            />
+          </div>
+        </div>
       </SliderContainer>
     </div>
   );

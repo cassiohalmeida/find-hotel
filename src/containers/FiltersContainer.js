@@ -32,8 +32,9 @@ const FiltersContainer = props => {
         min={100}
         max={800}
         id="filterPrice"
+        dataList={props.hotels}
       />
-      <SliderFilter
+      {/* <SliderFilter
         type="rating"
         title="Min rating"
         defaultValue={filterRating}
@@ -41,6 +42,7 @@ const FiltersContainer = props => {
         min={1}
         max={10}
         id="filterRating"
+        dataList={props.hotels}
       />
       <SliderFilter
         type="distance"
@@ -50,10 +52,15 @@ const FiltersContainer = props => {
         min={1}
         max={10}
         id="filterDistance"
-      />
+        dataList={props.hotels}
+      /> */}
     </StyledFiltersContainer>
   );
 };
+
+const mapStateToProps = state => ({
+  hotels: state.hotels
+});
 
 const mapDispatchToProps = dispatch => ({
   filterHotels: data => {
@@ -67,6 +74,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(FiltersContainer);
