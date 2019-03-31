@@ -97,7 +97,7 @@ const SliderFilter = props => {
       for (let i = props.min; i <= props.max; i++) {
         let size = props.data.filter(hotel => {
           if (props.type == 'rating') {
-            return ratingFilter(hotel, i);
+            return Math.trunc(hotel.review_rating.rating) == i;
           }
           return distanceFilter(hotel, i);
         });

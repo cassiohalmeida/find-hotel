@@ -11,23 +11,41 @@ export const priceBetweenFilter = (hotel, minPrice, maxPrice) => {
 };
 
 export const ratingFilter = (hotel, rating) => {
-  return Math.trunc(hotel.review_rating.rating) == rating;
+  return Math.trunc(hotel.review_rating.rating) > rating;
 };
 
 export const distanceFilter = (hotel, distanceCenter) => {
   return hotel.distance_center == distanceCenter;
 };
 
-export const getFilteredHotels = createSelector(
+const filteredHotelsByMaxPrice = createSelector(
   hotels,
   visibilityFilter,
   (hotels, visibilityFilter) => {
     return hotels.filter(hotel => {
       return (
-        priceBetweenFilter(hotel, visibilityFilter.price - visibilityFilter.priceStep, visibilityFilter.price) ||
-        ratingFilter(hotel, visibilityFilter.rating) &&
-        distanceFilter(hotel, visibilityFilter.distanceCenter)
+        priceBetweenFilter(hotel, visibilityFilter.price - visibilityFilter.priceStep, visibilityFilter.price)
       );
     });
   }
 );
+const filteredHotelsByMinRating = createSelector(
+  [filteredHotelsByMaxPrice, visibilityFilter],
+  (hotels, visibilityFilter) => {
+    return hotels.filter(hotel => {
+      return (
+        ratingFilter(hotel, visibilityFilter.rating)
+      );
+    });
+  }  
+)
+export const getFilteredHotels = createSelector(
+  [filteredHotelsByMinRating, visibilityFilter],
+  (hotels, visibilityFilter) => {
+    return hotels.filter(hotel => {
+      return (
+        distanceFilter(hotel, visibilityFilter.distanceCenter)
+      );
+    });
+  }
+)
