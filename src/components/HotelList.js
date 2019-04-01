@@ -17,6 +17,11 @@ const ListItem = styled.div`
   grid-template-columns: 420px auto 300px;
   grid-gap: 30px;
   margin-bottom: 30px;
+
+  @media (max-width: 767px) {
+    grid-template-columns: auto;
+    text-align:center;
+  }
 `;
 
 const HotelImage = styled.div`

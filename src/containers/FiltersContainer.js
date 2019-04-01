@@ -23,45 +23,47 @@ const FiltersContainer = props => {
     props.filterHotels({
       price: filterPrice,
       rating: filterRating,
-      distanceCenter: filterDistance,
+      distanceCenter: filterDistance
     });
   });
   return (
-    <StyledFiltersContainer>
-      <SliderFilter
-        type="money"
-        title="Max price"
-        defaultValue={filterPrice}
-        onInput={setFilterPrice}
-        min={100}
-        max={800}
-        step={100}
-        id="filterPrice"
-        data={props.hotels}
-      />
-      <SliderFilter
-        type="rating"
-        title="Min rating"
-        defaultValue={filterRating}
-        onInput={setFilterRating}
-        min={1}
-        max={10}
-        step={1}
-        id="filterRating"
-        data={props.hotels}
-      />
-      <SliderFilter
-        type="distance"
-        title="Distance from city center"
-        defaultValue={filterDistance}
-        onInput={setFilterDistance}
-        min={1}
-        max={10}
-        step={1}
-        id="filterDistance"
-        data={props.hotels}
-      />
-    </StyledFiltersContainer>
+    <div>
+      <StyledFiltersContainer>
+        <SliderFilter
+          type="money"
+          title="Max price"
+          defaultValue={filterPrice}
+          onInput={setFilterPrice}
+          min={100}
+          max={800}
+          step={100}
+          id="filterPrice"
+          data={props.hotels}
+        />
+        <SliderFilter
+          type="rating"
+          title="Min rating"
+          defaultValue={filterRating}
+          onInput={setFilterRating}
+          min={1}
+          max={10}
+          step={1}
+          id="filterRating"
+          data={props.hotels}
+        />
+        <SliderFilter
+          type="distance"
+          title="Distance from city center"
+          defaultValue={filterDistance}
+          onInput={setFilterDistance}
+          min={1}
+          max={10}
+          step={1}
+          id="filterDistance"
+          data={props.hotels}
+        />
+      </StyledFiltersContainer>
+    </div>
   );
 };
 
