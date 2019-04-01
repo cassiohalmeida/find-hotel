@@ -45,17 +45,6 @@ const SelectFilter = props => {
   };
   const getCheckboxes = options => {
     let result = [];
-    result.push(
-      <Checkbox
-        key={props.name + 'AnyCheckbox'}
-        label="Any"
-        value="any"
-        onChange={props.onChange}
-        name={props.name}
-        yellow={props.yellow}
-        blue={props.blue}
-      />
-    );
     options.forEach(option => {
       result.push(
         <Checkbox
@@ -63,6 +52,7 @@ const SelectFilter = props => {
           label={option.label}
           value={option.value}
           name={props.name}
+          checked={option.checked}
           onChange={props.onChange}
           yellow={props.yellow}
           blue={props.blue}

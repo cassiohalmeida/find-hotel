@@ -41,13 +41,13 @@ const StyledSpan = styled.span`
 
 const Checkbox = (props) => {
   const getLabel = () => {
-    if(props.value !== 'any') {
+    if(props.value !== 1) {
       return <StyledSpan>{props.label}<i className="fas fa-star"></i></StyledSpan>
     }
     return <StyledSpan>{props.label}</StyledSpan>
   }
   return <StyledLabel blue={props.blue} yellow={props.yellow}>
-    <input onChange={e => props.onChange(e.target.value)} value={props.value} type="checkbox" name={props.name}/>
+    <input onChange={e => props.onChange(e.target.value)} checked={props.checked} value={props.value} type="checkbox" name={props.name}/>
     {getLabel()}
   </StyledLabel>
 };

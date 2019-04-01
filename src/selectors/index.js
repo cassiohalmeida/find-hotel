@@ -16,13 +16,24 @@ export const distanceFilter = (hotel, distanceCenter) => {
 };
 
 export const starFilter = (hotel, data) => {
-  if (data.length == 0) {
+  if (
+    data.findIndex(x => x.checked == true) == -1 ||
+    data[data.findIndex(x => x.checked == true)].value === 1
+  ) {
     return true;
   }
-  let max = Math.max.apply(null, data)
-  let min = Math.min.apply(null, data)
+
+  let result = data
+    .filter(star => {
+      return star.checked;
+    })
+    .map(star => {
+      return star.value;
+    });
+  let max = Math.max.apply(null, result);
+  let min = Math.min.apply(null, result);
   return hotel.star_rating == max || hotel.star_rating == min;
-}
+};
 
 const filteredHotelsByMaxPrice = createSelector(
   hotels,

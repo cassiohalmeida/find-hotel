@@ -2,24 +2,58 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import SelectFilter from "../components/SelectFilter";
+import { starFilter } from "../selectors";
 
 const StyledMobileFilterContainer = styled.div``;
 
 const FiltersMobileContainer = props => {
   // RATING FILTERS
   const [filterRating, setFilterRating] = useState(1);
-  const [filterStar, setFilterStar] = useState([]);
-  const onChangeCheckbox = (value) => {
-    if(value == 'any') {
-      return setFilterStar([]);  
+  const [filterStar, setFilterStar] = useState([
+    {
+      label: "Any",
+      value: 1,
+      checked: false,
+    },
+    {
+      label: "2",
+      value: 2,
+      checked: false,
+    },
+    {
+      label: "3",
+      value: 3,
+      checked: false,
+    },
+    {
+      label: "4",
+      value: 4,
+      checked: false,
+    },
+    {
+      label: "5",
+      value: 5,
+      checked: false,
     }
-    if (filterStar.includes(value)) {
+  ]);
+  const onChangeCheckbox = (value) => {
+    if (value == 1) {
       let copy = filterStar;
-      let index = copy.indexOf(value);
-      copy.splice(index, 1);
+      copy.forEach((star) => {
+        if(star.value != 1) {
+          star.checked = false;
+        } else {
+          star.checked = true;
+        }
+      })
       return setFilterStar([...copy]);
     }
-    setFilterStar([...filterStar, value]);
+    let result = filterStar
+    let index = filterStar.findIndex(x => x.value == value);
+    let anyIndex = filterStar.findIndex(x => x.value == 1);
+    result[index].checked = !result[index].checked;
+    result[anyIndex].checked = false;
+    setFilterStar([...result]);
   }
   useEffect(() => {
     props.filterHotels({
@@ -61,24 +95,7 @@ const FiltersMobileContainer = props => {
           yellow
           name="checkboxStar"
           onChange={onChangeCheckbox}
-          options={[
-            {
-              label: "2",
-              value: 2
-            },
-            {
-              label: "3",
-              value: 3
-            },
-            {
-              label: "4",
-              value: 4
-            },
-            {
-              label: "5",
-              value: 5
-            }
-          ]}
+          options={filterStar}
         />
       </StyledMobileFilterContainer>
     </div>
